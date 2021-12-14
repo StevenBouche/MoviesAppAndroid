@@ -37,8 +37,7 @@ Dans ce projet, nous allons créer l'application AnneFlix (The new Netflix). L'o
   - Liste tous les genres possibles de l'API
   - Redirection vers un fragment pour visualiser tous les films d'un certain genre avec possibilité de trie
 
-![genre](/img/genre.png)
-![genre2](/img/genre2.png)
+![genre](/img/genre.png) ![genre2](/img/genre2.png)
 
 - Fragment Détails d'un film :
   - Affiche sa photo de couverture, son titre, ses genres, ses votes, sa note moyenne, sa date de sortie, sa durée, sa langue et sa description
@@ -50,8 +49,7 @@ Dans ce projet, nous allons créer l'application AnneFlix (The new Netflix). L'o
   - Redirection vers un fragment affichant les détails d'un film lorsque l'on clique sur sa vignette dans les films similaires
   - Redirection vers fragment youtube et de consultation des critiques du film
 
-![details](/img/details.png)
-![details2](/img/details2.png)
+![details](/img/details.png) ![details2](/img/details2.png)
 
 - Fragment Favoris :
   - Permets la consultation de tous les films que l'on a mis en favoris
