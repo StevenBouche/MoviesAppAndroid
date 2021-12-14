@@ -14,6 +14,7 @@ Dans ce projet, nous allons créer l'application AnneFlix (The new Netflix). L'o
 ## Fonctionnalités 
 
 - Deux langues prise en compte EN / FR (traduction)
+- Infinite scroll sur toutes les listes (Pagination)
 
 - Fragment Authentification : 
   - Géneration du RequestToken
