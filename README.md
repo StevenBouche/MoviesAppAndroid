@@ -7,6 +7,10 @@
 ## Objectifs
 Dans ce projet, nous allons créer l'application AnneFlix (The new Netflix). L'objectif est d'exploiter la base de données TheMoovieDB (https://developers.themoviedb.org/3) afin de permettre aux utilisateurs de l'application de visualiser, noter et voir la bande annonce des films de la base de données. 
 
+## Prerequis
+
+- Avoir un compte TMDB pour la connexion (aucun stockage en base d'information)
+
 ## Fonctionnalités 
 
 - Deux langues prise en compte EN / FR (traduction)
