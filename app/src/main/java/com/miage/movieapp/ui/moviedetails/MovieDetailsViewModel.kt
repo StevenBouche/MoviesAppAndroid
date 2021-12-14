@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.core.models.api.*
 import com.example.core.models.entity.MovieFavoriteEntity
 import com.example.core.repository.MovieRepository
+import com.miage.movieapp.extension.appendList
 import com.miage.movieapp.models.MovieParcelable
 import com.miage.movieapp.ui.fragment.BaseViewModel
 
@@ -19,6 +20,10 @@ class MovieDetailsViewModel(
     private val _movie: MutableLiveData<Movie> = MutableLiveData()
     private val _videos: MutableLiveData<List<MovieVideo>> = MutableLiveData()
     private val _casts: MutableLiveData<List<Cast>> = MutableLiveData()
+
+    private val similarPage = MutableLiveData<Int>().apply { value = 1 }
+    private val _similarMovies:  MutableLiveData<List<Movie>> = MutableLiveData()
+    val similarMovieList = MediatorLiveData<MutableList<Movie>>()
 
     var movieParcelable: MovieParcelable? get() = _movieParcelable
         set(value) {
@@ -35,6 +40,9 @@ class MovieDetailsViewModel(
     init {
         movieFavorite.addSource(_movie) {
             callSubscribe(repository.getMovieFavorite(it.id)) {f -> movieFavorite.postValue(f) }
+        }
+        similarMovieList.addSource(_similarMovies) {
+            it?.let { list -> similarMovieList.appendList(list) }
         }
     }
 
@@ -60,6 +68,7 @@ class MovieDetailsViewModel(
             callSubscribe(repository.getMovieVideos(it.id)) { v -> _videos.postValue(v) }
             callSubscribe(repository.getMovieCredits(it.id)) { c -> _casts.postValue(c) }
             callSubscribe(repository.getAccountMovie(it.id)) { a -> _account.postValue(a) }
+            callSubscribe(repository.getSimilarMovie(it.id, similarPage.value!!)) { m -> _similarMovies.postValue(m.results) }
         }
     }
 
@@ -70,6 +79,20 @@ class MovieDetailsViewModel(
                     callSubscribe(repository.getMovieDetails(it.id)) { m -> _movie.postValue(m) }
                     callSubscribe(repository.getAccountMovie(it.id)) { a -> _account.postValue(a) }
                 }
+            }
+        }
+    }
+
+    fun loadMoreSimilar() {
+        similarPage.value = similarPage.value?.plus(1)
+        _movieParcelable?.let { m ->
+            similarPage.value?.let {
+                callSubscribe(
+                    repository.getSimilarMovie(
+                        m.id,
+                        it
+                    )
+                ) { m -> _similarMovies.postValue(m.results) }
             }
         }
     }

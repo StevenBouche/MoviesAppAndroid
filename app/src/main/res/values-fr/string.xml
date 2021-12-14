@@ -42,7 +42,10 @@
     <string name="vote_count_desc">Nombre de vote descendant</string>
     <string name="show_all_title">Afficher tout</string>
     <string name="top_rated">Les mieux notés</string>
-    <string name="label_input_password">Password</string>
-    <string name="label_input_username">Username</string>
-    <string name="my_rating">MY RATING</string>
+    <string name="label_input_password">Mot de passe</string>
+    <string name="label_input_username">Nom utilisateur</string>
+    <string name="my_rating">MON VOTE</string>
+    <string name="rate_button">VOTE</string>
+    <string name="auth_submit">LOGIN</string>
+    <string name="similar">FILMS SIMILAIRES</string>
 </resources>

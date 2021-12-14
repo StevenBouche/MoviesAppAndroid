@@ -63,7 +63,7 @@ object TheMovieAPI {
         fun getMovieReviews(@Path("movie_id") id: Int, @Query("page") page: Int): Observable<PaginationResult<Review>>
 
         @GET("movie/{movie_id}/similar")
-        suspend fun getMovieSimilar(@Path("movie_id") id: Long, @Query("page") page: Int): Response<PaginationResult<DiscoverMovie>>
+        fun getMovieSimilar(@Path("movie_id") id: Int, @Query("page") page: Int): Observable<PaginationResult<Movie>>
 
         @GET("movie/popular")
         fun getPopularMovies(@Query("page") page: Int): Observable<PaginationResult<Movie>>

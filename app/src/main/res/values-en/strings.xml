@@ -45,4 +45,7 @@
     <string name="label_input_password">Password</string>
     <string name="label_input_username">Username</string>
     <string name="my_rating">MY RATING</string>
+    <string name="rate_button">VOTE</string>
+    <string name="auth_submit">LOGIN</string>
+    <string name="similar">SIMILAR MOVIES</string>
 </resources>

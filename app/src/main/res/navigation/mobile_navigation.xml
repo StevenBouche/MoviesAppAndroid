@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_MovieDetails_to_MovieVideo"
             app:destination="@+id/navigation_youtube" />
+        <action
+            android:id="@+id/action_MovieDetails_to_MovieDetails"
+            app:destination="@+id/navigation_movie_details" />
     </fragment>
 
     <fragment

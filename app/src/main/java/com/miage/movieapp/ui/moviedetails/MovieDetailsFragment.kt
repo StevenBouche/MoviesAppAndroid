@@ -16,18 +16,23 @@ import com.miage.movieapp.handlers.IHandlerMovieDetails
 import com.miage.movieapp.models.MovieParcelable
 import com.miage.movieapp.models.VideoParcelable
 import com.miage.movieapp.adapters.CastsAdapter
+import com.miage.movieapp.adapters.HomeMoviesAdapter
 import com.miage.movieapp.adapters.VideosAdapter
+import com.miage.movieapp.handlers.IHandlerHome
 import com.miage.movieapp.ui.fragment.BaseFragment
 import com.miage.movieapp.ui.fragment.BaseViewModel
+import com.miage.movieapp.utils.RecyclerScrollListener
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MovieDetailsFragment: BaseFragment<FragmentMovieDetailsBinding>(), IHandlerMovieDetails {
+class MovieDetailsFragment: BaseFragment<FragmentMovieDetailsBinding>(), IHandlerMovieDetails,
+    IHandlerHome {
 
     private lateinit var adapterVideos: VideosAdapter
     private lateinit var adapterCasts: CastsAdapter
+    private lateinit var adapterSimilar: HomeMoviesAdapter
 
     private val movieViewModel: MovieDetailsViewModel by viewModel()
     private val args by navArgs<MovieDetailsFragmentArgs>()
@@ -44,12 +49,14 @@ class MovieDetailsFragment: BaseFragment<FragmentMovieDetailsBinding>(), IHandle
     override fun setupAdapters(){
         adapterVideos = VideosAdapter(this)
         adapterCasts = CastsAdapter()
+        adapterSimilar = HomeMoviesAdapter(this, RecyclerScrollListener(binding.similarRecyclerView) { movieViewModel.loadMoreSimilar() })
     }
 
     override fun setupBinding(){
         binding.viewmodel = movieViewModel
         binding.videosRecyclerView.adapter = adapterVideos
         binding.castRecyclerView.adapter = adapterCasts
+        binding.similarRecyclerView.adapter = adapterSimilar
         binding.reviewsButton.setOnClickListener { onClickReviews(movieViewModel.movieParcelable) }
         binding.imageFavorite.setOnClickListener {
             disposables.add(actionFavorite.subscribe())
@@ -60,9 +67,8 @@ class MovieDetailsFragment: BaseFragment<FragmentMovieDetailsBinding>(), IHandle
         movieViewModel.movie.observe(viewLifecycleOwner) { bindMovieToView(it) }
         movieViewModel.videos.observe(viewLifecycleOwner) { bindMovieVideosToView(it) }
         movieViewModel.casts.observe(viewLifecycleOwner) { bindMovieCastsToView(it) }
-        movieViewModel.account.observe(viewLifecycleOwner) {
-            bindRated(it)
-        }
+        movieViewModel.account.observe(viewLifecycleOwner) { bindRated(it) }
+        movieViewModel.similarMovieList.observe(viewLifecycleOwner) { adapterSimilar.submitList(it) }
         movieViewModel.movieFavorite.observe(viewLifecycleOwner) {
             val image = if(it != null) R.drawable.ic_baseline_favorite_24 else R.drawable.ic_baseline_favorite_border_24
             binding.imageFavorite.setImageResource(image)
@@ -135,5 +141,10 @@ class MovieDetailsFragment: BaseFragment<FragmentMovieDetailsBinding>(), IHandle
             val action = MovieDetailsFragmentDirections.actionMovieDetailsToMovieReviews(it)
             findNavController().navigate(action)
         }
+    }
+
+    override fun onClickMovie(item: Movie) {
+        val action = MovieDetailsFragmentDirections.actionMovieDetailsToMovieDetails(MovieParcelable(item.id, item.title))
+        findNavController().navigate(action)
     }
 }

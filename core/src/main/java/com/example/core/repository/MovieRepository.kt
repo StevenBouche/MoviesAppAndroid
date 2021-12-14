@@ -87,4 +87,8 @@ class MovieRepository(
         return service.postRateMovie(movieId, rate);
     }
 
+    fun getSimilarMovie(movieId: Int, page: Int): Observable<PaginationResult<Movie>>{
+        return service.getMovieSimilar(movieId, page)
+    }
+
 }
